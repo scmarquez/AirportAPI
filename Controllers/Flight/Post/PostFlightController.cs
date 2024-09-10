@@ -18,16 +18,18 @@ public class PostFlightController : ControllerBase
     }
 
     [HttpPost]
-    public StatusCodeResult Post()
+    public async Task<StatusCodeResult> Post(PostFlightBodyDTO postFlightBodyDTO)
     {
-        Guid flighId = Guid.NewGuid();
-        string sample = "asdfasdfasdf";
-
-        RegisterFlightCommand command = new RegisterFlightCommand(flighId,sample,sample,sample,sample);
+        RegisterFlightCommand command = new RegisterFlightCommand(
+            postFlightBodyDTO.Origin,
+            postFlightBodyDTO.Destination,
+            postFlightBodyDTO.ArrivalDate, 
+            postFlightBodyDTO.DepartureDate 
+        );
 
         RegisterFlightCommandHandler handler = new RegisterFlightCommandHandler(_flightRepository);
 
-        handler.handle(command);
+        await handler.handle(command);
 
         return Ok();
     }

@@ -11,10 +11,11 @@ namespace AirportAPI.Infrastructure.PostgreSQL.Flight
             _appDbContext = appDbContext;
         }
 
-        public void saveFlight(Domain.Model.Flight flight)
+        public async Task saveFlight(Domain.Model.Flight flight)
         {
-            _appDbContext.Flights.Add(flight);
+            await _appDbContext.Flights.AddAsync(flight);
             _appDbContext.SaveChanges();
+
         }
     }
 }

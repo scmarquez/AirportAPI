@@ -12,16 +12,15 @@ public  class RegisterFlightCommandHandler
         _flightRepository = repository;
     }
 
-    public void handle(RegisterFlightCommand registerFlightCommand)
+    public async Task handle(RegisterFlightCommand registerFlightCommand)
     {
-        Flight flight = new Flight();
+        Flight flight = Flight.createFlight(
+            registerFlightCommand.Origin,
+            registerFlightCommand.Destination, 
+            registerFlightCommand.ArrivalDate, 
+            registerFlightCommand.DepartureDate
+        );
 
-        flight.DepartureDate = registerFlightCommand.DepartureDate;
-        flight.ArrivalDate = registerFlightCommand.ArrivalDate;
-        flight.FlightID = registerFlightCommand.FlightId;
-        flight.Destination = registerFlightCommand.Destination;
-        flight.Origin = registerFlightCommand.Origin;
-
-        _flightRepository.saveFlight(flight);
+        await _flightRepository.saveFlight(flight);
     }
 }

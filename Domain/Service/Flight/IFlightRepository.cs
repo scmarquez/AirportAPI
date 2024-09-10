@@ -4,5 +4,5 @@ using AirportAPI.Domain.Model;
 
 public interface IFlightRepository
 {
-    public void saveFlight(Flight flight);
+    public Task saveFlight(Flight flight);
 }
