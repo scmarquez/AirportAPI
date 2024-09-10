@@ -12,7 +12,7 @@ public  class RegisterFlightCommandHandler
         _flightRepository = repository;
     }
 
-    public async Task handle(RegisterFlightCommand registerFlightCommand)
+    public async Task Handle(RegisterFlightCommand registerFlightCommand)
     {
         Flight flight = Flight.createFlight(
             registerFlightCommand.Origin,
@@ -21,6 +21,6 @@ public  class RegisterFlightCommandHandler
             registerFlightCommand.DepartureDate
         );
 
-        await _flightRepository.saveFlight(flight);
+        await _flightRepository.SaveFlight(flight);
     }
 }

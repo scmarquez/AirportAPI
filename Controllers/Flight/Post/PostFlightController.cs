@@ -1,37 +1,38 @@
-﻿using AirportAPI.Application.Flight.Command;
-using AirportAPI.Domain.Service.Flight;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AirportAPI.Controllers.Flight.Post;
-
-[ApiController]
-[Route("Flight")]
-public class PostFlightController : ControllerBase
+﻿namespace AirportAPI.Controllers.Flight.Post
 {
-    private readonly ILogger<PostFlightController> _logger;
-    private readonly IFlightRepository _flightRepository;
+    using AirportAPI.Application.Flight.Command;
+    using AirportAPI.Domain.Service.Flight;
+    using Microsoft.AspNetCore.Mvc;
 
-    public PostFlightController(ILogger<PostFlightController> logger, IFlightRepository flightRepository)
+    [ApiController]
+    [Route("Flight")]
+    public class PostFlightController : ControllerBase
     {
-        _flightRepository = flightRepository;
-        _logger = logger;
-    }
+        private readonly ILogger<PostFlightController> _logger;
+        private readonly IFlightRepository _flightRepository;
 
-    [HttpPost]
-    public async Task<StatusCodeResult> Post(PostFlightBodyDTO postFlightBodyDTO)
-    {
-        RegisterFlightCommand command = new RegisterFlightCommand(
-            postFlightBodyDTO.Origin,
-            postFlightBodyDTO.Destination,
-            postFlightBodyDTO.ArrivalDate, 
-            postFlightBodyDTO.DepartureDate 
-        );
+        public PostFlightController(ILogger<PostFlightController> logger, IFlightRepository flightRepository)
+        {
+            _flightRepository = flightRepository;
+            _logger = logger;
+        }
 
-        RegisterFlightCommandHandler handler = new RegisterFlightCommandHandler(_flightRepository);
+        [HttpPost]
+        public async Task<StatusCodeResult> Post(PostFlightBodyDTO postFlightBodyDTO)
+        {
+            RegisterFlightCommand command = new RegisterFlightCommand(
+                postFlightBodyDTO.Origin,
+                postFlightBodyDTO.Destination,
+                postFlightBodyDTO.ArrivalDate,
+                postFlightBodyDTO.DepartureDate
+            );
 
-        await handler.handle(command);
+            RegisterFlightCommandHandler handler = new RegisterFlightCommandHandler(_flightRepository);
 
-        return Ok();
+            await handler.Handle(command);
+
+            return Ok();
+        }
     }
 }
 
