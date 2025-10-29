@@ -6,5 +6,7 @@ namespace AirportAPI.Domain.Service.Flight
     {
         public Task SaveFlight(Flight flight);
         public Flight GetFlightByID(Guid id);
+        public Task DeleteFlight (Guid id);
+        public List<Flight> GetAllFlights();
     }
 }

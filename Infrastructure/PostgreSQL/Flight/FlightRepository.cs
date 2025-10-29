@@ -25,5 +25,16 @@
             return _appDbContext.Flights.Find(id);
         }
 
+        public async Task DeleteFlight(Guid flighId)
+        {
+            var flight = _appDbContext.Flights.Find(flighId);
+            _appDbContext.Flights.Remove(flight);
+            _appDbContext.SaveChanges();
+        }
+
+        public List<Flight> GetAllFlights()
+        {
+            return _appDbContext.Flights.ToList();
+        }
     }
 }

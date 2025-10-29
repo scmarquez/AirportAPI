@@ -1,4 +1,6 @@
-﻿namespace AirportAPI.Application.Flight.Query
+﻿using AirportAPI.Application.Execptions;
+
+namespace AirportAPI.Application.Flight.Query
 {
     using AirportAPI.Domain.Service.Flight;
     using Domain.Model;
@@ -14,7 +16,14 @@
 
         public Flight Handle(GetFlightQuery getFlightQuery)
         {
-            return _flightRepository.GetFlightByID(getFlightQuery.FlightID);
+            var flight = _flightRepository.GetFlightByID(getFlightQuery.FlightID);
+
+            if (null == flight)
+            {
+                throw new FlightNotFoundException(getFlightQuery.FlightID);
+            }
+            
+            return flight;
         }
     }
 }

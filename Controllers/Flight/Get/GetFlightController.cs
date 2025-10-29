@@ -19,11 +19,19 @@
         }
 
         [HttpGet]
-        public async Task<Flight> GetFlight(Guid flightID)
+        [Route("{flightID}")]
+        public Flight GetFlight(Guid flightID)
         {
             var getFlightQuery = new GetFlightQuery(flightID);
             var getFlightQueryHandler = new GetFlightQueryHandler(_flightRepository);
-            return getFlightQueryHandler.Handle(getFlightQuery);
+            try
+            {
+                return getFlightQueryHandler.Handle(getFlightQuery);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting flight with ID {flightID}: {e.Message}");
+            }
         }
     }
 }
